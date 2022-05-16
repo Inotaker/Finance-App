@@ -2,15 +2,14 @@ package by.itacademy.accountschedulerservice.model.dto;
 
 import java.util.UUID;
 
-public class OperationPost {
+public class OperationHttpPost {
     private long date;
-    private UUID account;//$uuid
     private String description;/**как связать акаунт из другой базы данных*/
     private long value;
     private UUID currency;//$uuid
     private UUID category;
 
-    public OperationPost() {
+    public OperationHttpPost() {
     }
 
     public long getDate() {
@@ -19,14 +18,6 @@ public class OperationPost {
 
     public void setDate(long date) {
         this.date = date;
-    }
-
-    public UUID getAccount() {
-        return account;
-    }
-
-    public void setAccount(UUID account) {
-        this.account = account;
     }
 
     public String getDescription() {
@@ -63,7 +54,6 @@ public class OperationPost {
 
     public static final class Builder {
         private long date;
-        private UUID account;//$uuid
         private String description;
         private long value;
         private UUID currency;//$uuid
@@ -78,11 +68,6 @@ public class OperationPost {
 
         public Builder withDate(long date) {
             this.date = date;
-            return this;
-        }
-
-        public Builder withAccount(UUID account) {
-            this.account = account;
             return this;
         }
 
@@ -106,15 +91,14 @@ public class OperationPost {
             return this;
         }
 
-        public OperationPost build() {
-            OperationPost operationPost = new OperationPost();
-            operationPost.setDate(date);
-            operationPost.setAccount(account);
-            operationPost.setDescription(description);
-            operationPost.setValue(value);
-            operationPost.setCurrency(currency);
-            operationPost.setCategory(category);
-            return operationPost;
+        public OperationHttpPost build() {
+            OperationHttpPost operationHttpPost = new OperationHttpPost();
+            operationHttpPost.setDate(date);
+            operationHttpPost.setDescription(description);
+            operationHttpPost.setValue(value);
+            operationHttpPost.setCurrency(currency);
+            operationHttpPost.setCategory(category);
+            return operationHttpPost;
         }
     }
 }

@@ -5,10 +5,10 @@ import by.itacademy.accountschedulerservice.controller.advice.ValidationExceptio
 import by.itacademy.accountschedulerservice.dao.api.IScheduledOperationStorage;
 import by.itacademy.accountschedulerservice.model.Page;
 import by.itacademy.accountschedulerservice.model.TimeUnit;
-import by.itacademy.accountschedulerservice.model.dto.OperationPost;
+import by.itacademy.accountschedulerservice.model.dto.OperationHttpPost;
 import by.itacademy.accountschedulerservice.model.dto.ScheduledOperation;
 import by.itacademy.accountschedulerservice.model.entity.ScheduledOperationEntity;
-import by.itacademy.accountschedulerservice.services.ScheduledOperationService;
+import by.itacademy.accountschedulerservice.services.api.ScheduledOperationService;
 import by.itacademy.accountschedulerservice.services.scheduler.SchedulerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
@@ -160,7 +160,7 @@ public class ScheduledOperationServiceImpl implements ScheduledOperationService 
         return accountPage;
     }
 
-    private void sendPost(OperationPost operation, UUID account) throws Exception {
+    private void sendPost(OperationHttpPost operation, UUID account) throws Exception {
         HttpClient httpClient = HttpClientBuilder.create().build();
         ObjectMapper mapper = new ObjectMapper();
         try {

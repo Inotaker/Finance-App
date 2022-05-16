@@ -1,4 +1,4 @@
-package by.itacademy.accountschedulerservice.services;
+package by.itacademy.accountschedulerservice.services.api;
 
 import by.itacademy.accountschedulerservice.model.Page;
 import by.itacademy.accountschedulerservice.model.entity.ScheduledOperationEntity;
