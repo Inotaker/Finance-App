@@ -17,6 +17,22 @@ public class Currency {
     public Currency() {
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
+    public long getDt_create() {
+        return dt_create;
+    }
+
+    public void setDt_create(long dt_create) {
+        this.dt_create = dt_create;
+    }
+
     public long getDt_update() {
         return dt_update;
     }
@@ -33,14 +49,6 @@ public class Currency {
         this.title = title;
     }
 
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public long getDt_create() {
-        return dt_create;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -48,7 +56,6 @@ public class Currency {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public static final class Builder {
         private UUID uuid;
@@ -91,11 +98,11 @@ public class Currency {
 
         public Currency build() {
             Currency currency = new Currency();
+            currency.setUuid(uuid);
+            currency.setDt_create(dt_create);
             currency.setDt_update(dt_update);
             currency.setTitle(title);
             currency.setDescription(description);
-            currency.dt_create = this.dt_create;
-            currency.uuid = this.uuid;
             return currency;
         }
     }

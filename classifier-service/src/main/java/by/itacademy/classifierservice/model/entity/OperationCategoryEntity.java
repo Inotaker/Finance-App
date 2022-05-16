@@ -13,6 +13,7 @@ public class OperationCategoryEntity {
     private long dt_update;//$int64
 
     private String title;//example Auto
+    private String description;
 
     public OperationCategoryEntity() {
     }
@@ -21,70 +22,88 @@ public class OperationCategoryEntity {
         return uuid;
     }
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
     public long getDt_create() {
         return dt_create;
+    }
+
+    public void setDt_create(long dt_create) {
+        this.dt_create = dt_create;
     }
 
     public long getDt_update() {
         return dt_update;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public void setDt_update(long dt_update) {
         this.dt_update = dt_update;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
-    public static final class OperationCategoryEntityBuilder {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public static final class Builder {
         private UUID uuid;
         private long dt_create;//$int64
         private long dt_update;//$int64
         private String title;//example Auto
+        private String description;
 
-        private OperationCategoryEntityBuilder() {
-            long time = System.currentTimeMillis();
-            this.uuid = UUID.randomUUID();
-            this.dt_create = time;
-            this.dt_update = time;
+        private Builder() {
         }
 
-        public static OperationCategoryEntityBuilder anOperationCategoryEntity() {
-            return new OperationCategoryEntityBuilder();
+        public static Builder anOperationCategoryEntity() {
+            return new Builder();
         }
 
-        public OperationCategoryEntityBuilder withUuid(UUID uuid) {
+        public Builder withUuid(UUID uuid) {
             this.uuid = uuid;
             return this;
         }
 
-        public OperationCategoryEntityBuilder withDt_create(long dt_create) {
+        public Builder withDt_create(long dt_create) {
             this.dt_create = dt_create;
             return this;
         }
 
-        public OperationCategoryEntityBuilder withDt_update(long dt_update) {
+        public Builder withDt_update(long dt_update) {
             this.dt_update = dt_update;
             return this;
         }
 
-        public OperationCategoryEntityBuilder withTitle(String title) {
+        public Builder withTitle(String title) {
             this.title = title;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            this.description = description;
             return this;
         }
 
         public OperationCategoryEntity build() {
             OperationCategoryEntity operationCategoryEntity = new OperationCategoryEntity();
+            operationCategoryEntity.setUuid(uuid);
+            operationCategoryEntity.setDt_create(dt_create);
             operationCategoryEntity.setDt_update(dt_update);
             operationCategoryEntity.setTitle(title);
-            operationCategoryEntity.dt_create = this.dt_create;
-            operationCategoryEntity.uuid = this.uuid;
+            operationCategoryEntity.setDescription(description);
             return operationCategoryEntity;
         }
     }

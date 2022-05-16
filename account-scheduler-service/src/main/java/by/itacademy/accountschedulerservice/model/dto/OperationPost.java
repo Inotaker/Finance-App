@@ -13,6 +13,14 @@ public class OperationPost {
     public OperationPost() {
     }
 
+    public long getDate() {
+        return date;
+    }
+
+    public void setDate(long date) {
+        this.date = date;
+    }
+
     public UUID getAccount() {
         return account;
     }
@@ -53,14 +61,6 @@ public class OperationPost {
         this.category = category;
     }
 
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
-    }
-
     public static final class Builder {
         private long date;
         private UUID account;//$uuid
@@ -72,48 +72,49 @@ public class OperationPost {
         private Builder() {
         }
 
-        public static OperationPost.Builder anOperation() {
-            return new OperationPost.Builder();
+        public static Builder anOperationPost() {
+            return new Builder();
         }
 
-        public OperationPost.Builder withAccount(UUID account) {
+        public Builder withDate(long date) {
+            this.date = date;
+            return this;
+        }
+
+        public Builder withAccount(UUID account) {
             this.account = account;
             return this;
         }
 
-        public OperationPost.Builder withDescription(String description) {
+        public Builder withDescription(String description) {
             this.description = description;
             return this;
         }
 
-        public OperationPost.Builder withValue(long value) {
+        public Builder withValue(long value) {
             this.value = value;
             return this;
         }
 
-        public OperationPost.Builder withCurrency(UUID currency) {
+        public Builder withCurrency(UUID currency) {
             this.currency = currency;
             return this;
         }
 
-        public OperationPost.Builder withCategory(UUID category) {
+        public Builder withCategory(UUID category) {
             this.category = category;
             return this;
         }
 
         public OperationPost build() {
-            OperationPost operation = new OperationPost();
-            operation.setAccount(account);
-            operation.setDescription(description);
-            operation.setValue(value);
-            operation.setCurrency(currency);
-            operation.setCategory(category);
-            return operation;
-        }
-
-        public  OperationPost.Builder withDate(long date) {
-            this.date =  date;
-            return this;
+            OperationPost operationPost = new OperationPost();
+            operationPost.setDate(date);
+            operationPost.setAccount(account);
+            operationPost.setDescription(description);
+            operationPost.setValue(value);
+            operationPost.setCurrency(currency);
+            operationPost.setCategory(category);
+            return operationPost;
         }
     }
 }

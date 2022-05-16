@@ -34,6 +34,10 @@ public class OperationServiceImpl implements OperationService {
         if (service.getById(uuid).getUuid().equals(uuid)) {
             operationEntity.setAccount(uuid);
             service.editBalance(operationEntity.getValue(),uuid);
+            long time = System.currentTimeMillis();
+            operationEntity.setDt_create(time);
+            operationEntity.setDt_update(time);
+            operationEntity.setUuid(UUID.randomUUID());
             return this.storage.save(operationEntity);
         } else {
             throw new ValidationException("счета с таким uuid не существует");
@@ -46,7 +50,7 @@ public class OperationServiceImpl implements OperationService {
         if (!operationEntity.isAvailable())
             throw new ValidationException("Эта операция недоступна!");
         return operationEntity;
-        /**ЧТО БЛЯТЬ ЗА МАГИЯ!
+        /**ЧТО ЗА МАГИЯ!
          https://stackoverflow.com/questions/52656517/no-serializer-found-for-class-org-hibernate-proxy-pojo-bytebuddy-bytebuddyinterc
          */
     }

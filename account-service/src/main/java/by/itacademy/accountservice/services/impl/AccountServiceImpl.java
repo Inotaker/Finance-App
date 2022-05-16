@@ -30,28 +30,33 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public AccountEntity addAccount(AccountEntity bank) {
+    public AccountEntity addAccount(AccountEntity entity) {
         List<ValidationError> errors = new ArrayList<>();
         int countError = 0;
-        if (bank.getDescription().equals("")) {
+        if (entity.getDescription().equals("")) {
             errors.add(new ValidationError("error", "поле description не может быть пустым"));
             countError++;
         }
-        if (bank.getTitle().equals("")) {
+        if (entity.getTitle().equals("")) {
             errors.add(new ValidationError("error", "поле title не может быть пустым"));
             countError++;
         }
-        if (bank.getType().equals("")) {
+        if (entity.getType().equals("")) {
             errors.add(new ValidationError("error", "поле type не может быть пустым"));
             countError++;
         }
         try {
-            bank.setType(AccountType.valueOf(bank.getType()).toString());
+            entity.setType(AccountType.valueOf(entity.getType()).toString());
         } catch (IllegalArgumentException e) {
             errors.add(new ValidationError("type_enum","поле type не соответствую ни одному enum"));
         }
         if (countError > 0) throw new ValidationException("ошибка валидация аккаунта", errors);
-        return this.storage.save(bank);
+
+        long time = System.currentTimeMillis();
+        entity.setDt_create(time);
+        entity.setDt_update(time);
+        entity.setUuid(UUID.randomUUID());
+        return this.storage.save(entity);
     }
 
     @Override

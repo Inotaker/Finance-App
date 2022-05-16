@@ -80,8 +80,11 @@ public class ScheduledOperationServiceImpl implements ScheduledOperationService 
 //            e.printStackTrace();
 //        }
         UUID scheduledUuid = UUID.randomUUID();
-        scheduledOperation.setUuid(scheduledUuid);
 
+        long time = System.currentTimeMillis();
+        scheduledOperation.setDt_create(time);
+        scheduledOperation.setDt_update(time);
+        scheduledOperation.setUuid(scheduledUuid);
 
         ScheduledOperationEntity scheduledOperationEntity = storage.save(scheduledOperation);
 

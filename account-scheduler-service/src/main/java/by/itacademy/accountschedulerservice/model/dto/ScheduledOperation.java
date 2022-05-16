@@ -10,9 +10,9 @@ public class ScheduledOperation {
     private long dt_create;//$int64
     private long dt_update;//$int64
 
-    @JsonProperty("schedule")
+//    @JsonProperty("schedule")
     private Schedule schedule;
-    @JsonProperty("operation")
+//    @JsonProperty("operation")
     private Operation operation;
 
 
@@ -63,8 +63,10 @@ public class ScheduledOperation {
         private UUID uuid;
         private long dt_create;//$int64
         private long dt_update;//$int64
-        private Schedule schedule;
-        private Operation operation;
+        //    @JsonProperty("schedule")
+            private Schedule schedule;
+        //    @JsonProperty("operation")
+            private Operation operation;
 
         private Builder() {
         }

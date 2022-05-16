@@ -29,14 +29,14 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public CurrencyEntity add(CurrencyEntity currencyEntity) {
 
-        if(this.storage.existsByTitle(currencyEntity.getTitle())){
+        if (this.storage.existsByTitle(currencyEntity.getTitle())) {
             throw new ValidationException("такая валюта уже существует");
         }
 
-        currencyEntity.setUuid(UUID.randomUUID());
         long time = System.currentTimeMillis();
         currencyEntity.setDt_create(time);
         currencyEntity.setDt_update(time);
+        currencyEntity.setUuid(UUID.randomUUID());
 
         return this.storage.save(currencyEntity);
     }

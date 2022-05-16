@@ -20,6 +20,10 @@ public class ScheduledOperationDtoToEntity implements Converter<ScheduledOperati
                 .withCurrency(source.getOperation().getCurrency())
                 .withDescription(source.getOperation().getDescription())
                 .withValue(source.getOperation().getValue())
+
+                .withDt_create(source.getDt_create())
+                .withDt_update(source.getDt_update())
+                .withUuid(source.getUuid())
                 .build();
     }
 }

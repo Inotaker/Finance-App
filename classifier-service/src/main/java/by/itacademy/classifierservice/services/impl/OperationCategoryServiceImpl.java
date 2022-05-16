@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OperationCategoryServiceImpl implements OperationCategoryService {
@@ -30,6 +31,12 @@ public class OperationCategoryServiceImpl implements OperationCategoryService {
         if(this.storage.existsByTitle(operationCategoryEntity.getTitle())){
             throw new ValidationException("такая категория уже существует");
         }
+
+        long time = System.currentTimeMillis();
+        operationCategoryEntity.setDt_create(time);
+        operationCategoryEntity.setDt_update(time);
+        operationCategoryEntity.setUuid(UUID.randomUUID());
+
         return this.storage.save(operationCategoryEntity);
     }
 

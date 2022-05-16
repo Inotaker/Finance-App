@@ -28,14 +28,6 @@ public class ScheduledOperationEntity {
     public ScheduledOperationEntity() {
     }
 
-    public UUID getCategory() {
-        return category;
-    }
-
-    public void setCategory(UUID category) {
-        this.category = category;
-    }
-
     public UUID getUuid() {
         return uuid;
     }
@@ -74,6 +66,14 @@ public class ScheduledOperationEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UUID getCategory() {
+        return category;
+    }
+
+    public void setCategory(UUID category) {
+        this.category = category;
     }
 
     public long getValue() {
@@ -139,19 +139,10 @@ public class ScheduledOperationEntity {
         private String time_unit;
 
         private Builder() {
-            long time = System.currentTimeMillis();
-            this.uuid = UUID.randomUUID();
-            this.dt_create = time;
-            this.dt_update = time;
         }
 
         public static Builder aScheduledOperationEntity() {
             return new Builder();
-        }
-
-        public Builder withCategory(UUID category) {
-            this.category = category;
-            return this;
         }
 
         public Builder withUuid(UUID uuid) {
@@ -176,6 +167,11 @@ public class ScheduledOperationEntity {
 
         public Builder withDescription(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder withCategory(UUID category) {
+            this.category = category;
             return this;
         }
 
@@ -216,13 +212,13 @@ public class ScheduledOperationEntity {
             scheduledOperationEntity.setDt_update(dt_update);
             scheduledOperationEntity.setAccount(account);
             scheduledOperationEntity.setDescription(description);
+            scheduledOperationEntity.setCategory(category);
             scheduledOperationEntity.setValue(value);
             scheduledOperationEntity.setCurrency(currency);
             scheduledOperationEntity.setStart_time(start_time);
             scheduledOperationEntity.setStop_time(stop_time);
             scheduledOperationEntity.setInterval(interval);
             scheduledOperationEntity.setTime_unit(time_unit);
-            scheduledOperationEntity.setCategory(category);
             return scheduledOperationEntity;
         }
     }
