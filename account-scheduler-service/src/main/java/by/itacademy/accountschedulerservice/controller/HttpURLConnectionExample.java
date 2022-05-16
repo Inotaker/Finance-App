@@ -1,6 +1,6 @@
 package by.itacademy.accountschedulerservice.controller;
 
-import by.itacademy.accountschedulerservice.model.dto.OperationPost;
+import by.itacademy.accountschedulerservice.model.dto.OperationHttpPost;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -8,9 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,13 +25,6 @@ public class HttpURLConnectionExample {
 //        http.sendGet();
 
         System.out.println("\nTesting 2 - Send Http POST request");
-        http.sendPost(OperationPost.Builder.anOperation()
-                .withAccount(UUID.fromString("599743e2-0487-4605-9c9d-e7c35c7e179c"))
-                .withCategory(UUID.fromString("63710c1e-2e22-4639-b458-1373eb7b13cb"))
-                .withCurrency(UUID.fromString("63710c1e-2e22-4639-b458-1373eb7b13cb"))
-                .withDescription("hfdehd")
-                .withValue(20)
-                .build());
 
     }
 
@@ -87,27 +78,6 @@ public class HttpURLConnectionExample {
 //        } finally {
 //            // @Deprecated httpClient.getConnectionManager().shutdown();
 //        }
-    private void sendPost(OperationPost operation) throws Exception {
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            HttpPost request = new HttpPost("http://localhost:8080/account/"+operation.getAccount()+"/operation");
-//            StringEntity params = new StringEntity("{\"title\":\"1\"," +
-//                    "\"description\":\"ЧЕРЕЗ HTTP\"," +
-//                    "\"type\":\"CASH\"," +
-//                    "\"currency\":\"d2b9063a-8a7d-4579-9889-8ab692f6a1f4\"} ");
-            StringEntity params = new StringEntity(mapper.writeValueAsString(operation));
-            request.addHeader("content-type", "application/json");
-            request.setEntity(params);
-            HttpResponse response = httpClient.execute(request);
-            System.out.println(response.getStatusLine().toString());
-        } catch (Exception ex) {
-        } finally {
-            // @Deprecated httpClient.getConnectionManager().shutdown();
-        }
-
-
-    }
 
 
 

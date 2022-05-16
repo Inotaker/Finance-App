@@ -14,7 +14,8 @@ public class ReportEntity {
     private LocalDateTime dt_update;//$int64
     String status;//ENUM
     String type;//ENUM
-    String description;/** readOnly: true
+    String description;
+    /** readOnly: true
      example: Дата совершения операции: 01.01.2021 - 01.01.2022
      Описание параметров отчёта в человеческом формате **/
     //params oneOf
