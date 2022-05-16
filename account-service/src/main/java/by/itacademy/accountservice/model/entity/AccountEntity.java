@@ -1,5 +1,7 @@
 package by.itacademy.accountservice.model.entity;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -7,10 +9,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "account", schema = "account_service")
+@Transactional(readOnly = true)
 public class AccountEntity {
-    /**
-     * 8
-     */
     @Id
     private UUID uuid;
 
