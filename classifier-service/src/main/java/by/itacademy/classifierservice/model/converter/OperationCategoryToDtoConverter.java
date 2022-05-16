@@ -10,7 +10,7 @@ public class OperationCategoryToDtoConverter implements Converter<OperationCateg
     @Override
     public OperationCategoryEntity convert(OperationCategory source) {
         OperationCategoryEntity operationCategoryEntity = OperationCategoryEntity
-                .OperationCategoryEntityBuilder
+                .Builder
                 .anOperationCategoryEntity()
                 .withTitle(source.getTitle())
                 .build();

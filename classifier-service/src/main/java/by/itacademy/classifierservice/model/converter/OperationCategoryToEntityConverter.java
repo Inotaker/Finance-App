@@ -10,7 +10,7 @@ public class OperationCategoryToEntityConverter implements Converter<OperationCa
     @Override
     public OperationCategory convert(OperationCategoryEntity source) {
         OperationCategory operationCategory = OperationCategory
-                .OperationCategoryBuilder
+                .Builder
                 .anOperationCategory()
                 .withTitle(source.getTitle())
                 .withDt_create(source.getDt_create())
