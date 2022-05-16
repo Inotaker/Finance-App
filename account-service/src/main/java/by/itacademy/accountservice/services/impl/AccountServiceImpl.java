@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
         try {
             entity.setType(AccountType.valueOf(entity.getType()).toString());
         } catch (IllegalArgumentException e) {
-            errors.add(new ValidationError("type_enum","поле type не соответствую ни одному enum"));
+            errors.add(new ValidationError("type_enum", "поле type не соответствую ни одному enum"));
         }
         if (countError > 0) throw new ValidationException("ошибка валидация аккаунта", errors);
 
@@ -56,6 +56,8 @@ public class AccountServiceImpl implements AccountService {
         entity.setDt_create(time);
         entity.setDt_update(time);
         entity.setUuid(UUID.randomUUID());
+        entity.setBalance(0);
+
         return this.storage.save(entity);
     }
 
@@ -81,19 +83,20 @@ public class AccountServiceImpl implements AccountService {
             errors.add(new ValidationError("error", "поле type не может быть пустым"));
         }
         if (errors.size() > 0) throw new ValidationException("ошибка валидация аккаунта", errors);
+
         accountEntityAdd.setTitle(accountEntity.getTitle());
         accountEntityAdd.setCurrency(accountEntity.getCurrency());
         accountEntityAdd.setDescription(accountEntity.getDescription());
         accountEntityAdd.setType(accountEntity.getType());
         accountEntityAdd.setDt_update(System.currentTimeMillis());
-        addAccount(accountEntityAdd);
+        storage.save(accountEntityAdd);/**сохранял через add, а там присваивается новый uuid*/
         return accountEntityAdd;
     }
 
     @Override
     public boolean editBalance(Integer balance, UUID accountId) {
         AccountEntity account = getById(accountId);
-        account.setBalance((account.getBalance()+balance));
+        account.setBalance((account.getBalance() + balance));
         editAccount(accountId, account, account.getDt_update());
         return true;
     }
