@@ -1,13 +1,10 @@
 package by.itacademy.accountschedulerservice.services.scheduler;
 
 
-import by.itacademy.accountschedulerservice.services.SchedulerService;
+import by.itacademy.accountschedulerservice.services.api.SchedulerService;
 import by.itacademy.accountschedulerservice.services.impl.ScheduledOperationServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/test/scheduler")
