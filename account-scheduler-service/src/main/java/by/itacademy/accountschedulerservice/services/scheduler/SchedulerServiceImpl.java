@@ -41,12 +41,12 @@ public class SchedulerServiceImpl implements SchedulerService {
         TriggerBuilder<Trigger> builder = TriggerBuilder.newTrigger()
                 .withIdentity(scheduledOperation.getUuid().toString(), "operations");
 
-        if (start_time == null) {
-            builder.startNow();
-            start_time = LocalDateTime.now();
-        } else {
+//        if (start_time == null) {
+//            builder.startNow();
+//            start_time = LocalDateTime.now();
+//        } else {
             builder.startAt(this.conversionService.convert(start_time, Date.class));
-        }
+//        }
         if (interval > 0) {
             SimpleScheduleBuilder ssb = null;
             CronScheduleBuilder csb = null;
