@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class OperationToEntityConverter implements Converter<Operation, OperationEntity> {
     @Override
     public OperationEntity convert(Operation source) {
-        OperationEntity operation = OperationEntity
+        return OperationEntity
                 .Builder
                 .anOperationEntity()
                 .withAccount(source.getAccount())
@@ -18,7 +18,9 @@ public class OperationToEntityConverter implements Converter<Operation, Operatio
                 .withDate(source.getDate())
                 .withDescription(source.getDescription())
                 .withValue(source.getValue())
+                .withDt_create(source.getDt_create())
+                .withDt_update(source.getDt_update())
+                .withUuid(source.getUuid())
                 .build();
-        return operation;
     }
 }

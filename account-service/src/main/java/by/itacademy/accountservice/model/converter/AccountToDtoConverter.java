@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class AccountToDtoConverter implements Converter<AccountEntity, Account> {
     @Override
     public Account convert(AccountEntity source) {
-        Account account = Account
+        return Account
                 .Builder
                 .anAccount()
                 .withBalance(source.getBalance())
@@ -21,6 +21,5 @@ public class AccountToDtoConverter implements Converter<AccountEntity, Account> 
                 .withDt_update(source.getDt_update())
                 .withUuid(source.getUuid())
                 .build();
-        return account;
     }
 }

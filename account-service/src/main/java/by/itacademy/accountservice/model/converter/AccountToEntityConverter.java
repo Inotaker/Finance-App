@@ -9,14 +9,17 @@ import org.springframework.stereotype.Component;
 public class AccountToEntityConverter implements Converter<Account, AccountEntity> {
     @Override
     public AccountEntity convert(Account source) {
-        AccountEntity account = AccountEntity
+        return AccountEntity
                 .Builder
                 .anAccountEntity()
+                .withBalance(source.getBalance())
                 .withCurrency(source.getCurrency())
                 .withDescription(source.getDescription())
                 .withTitle(source.getTitle())
                 .withType(source.getType())
+                .withDt_create(source.getDt_create())
+                .withDt_update(source.getDt_update())
+                .withUuid(source.getUuid())
                 .build();
-        return account;
     }
 }

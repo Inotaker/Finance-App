@@ -1,11 +1,12 @@
 package by.itacademy.accountservice.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import java.util.UUID;
 
 
 public class Operation {
+    /**
+     * 9
+     */
     private UUID uuid;
 
     private long dt_create;

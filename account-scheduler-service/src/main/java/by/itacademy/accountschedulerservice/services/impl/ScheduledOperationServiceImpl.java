@@ -82,7 +82,9 @@ public class ScheduledOperationServiceImpl implements ScheduledOperationService 
         UUID scheduledUuid = UUID.randomUUID();
         scheduledOperation.setUuid(scheduledUuid);
 
+
         ScheduledOperationEntity scheduledOperationEntity = storage.save(scheduledOperation);
+
         this.schedulerService.create(getById(scheduledUuid));
         return scheduledOperationEntity;
     }

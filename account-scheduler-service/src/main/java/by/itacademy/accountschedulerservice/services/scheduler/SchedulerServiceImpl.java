@@ -4,28 +4,36 @@ import by.itacademy.accountschedulerservice.model.TimeUnit;
 import by.itacademy.accountschedulerservice.model.entity.ScheduledOperationEntity;
 import by.itacademy.accountschedulerservice.services.SchedulerService;
 import org.quartz.*;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
     private final Scheduler scheduler;
+    private final ConversionService conversionService;
 
-    public SchedulerServiceImpl(Scheduler scheduler) {
+    public SchedulerServiceImpl(Scheduler scheduler, ConversionService conversionService) {
         this.scheduler = scheduler;
+        this.conversionService = conversionService;
     }
 
     @Override
     public void create(ScheduledOperationEntity operation) {
-        long start_time = operation.getStart_time();
-        long stop_time = operation.getStop_time();
+        LocalDateTime start_time = LocalDateTime.ofInstant(Instant.ofEpochMilli(operation.getStart_time()), ZoneId.systemDefault());
+        LocalDateTime stop_time = LocalDateTime.ofInstant(Instant.ofEpochMilli(operation.getStop_time()), ZoneId.systemDefault());
         int interval = operation.getInterval();
         TimeUnit time_unit = TimeUnit.valueOf(operation.getTime_unit());
         long millis_to_time_unit = 0;
 
         SimpleScheduleBuilder simpleScheduleBuilder = null;
+        CronScheduleBuilder cronScheduleBuilder = null;
+        String expression;
 
         switch (time_unit) {
             case SECOND:
@@ -38,16 +46,28 @@ public class SchedulerServiceImpl implements SchedulerService {
                 simpleScheduleBuilder.withIntervalInHours(interval);
                 break;
             case DAY:
-                simpleScheduleBuilder.withIntervalInHours(interval*24);
+                simpleScheduleBuilder.withIntervalInHours(interval * 24);
                 break;
             case WEEK:
-                simpleScheduleBuilder.withIntervalInHours(interval*24*7);
+                simpleScheduleBuilder.withIntervalInHours(interval * 24 * 7);
                 break;
+
             case MONTH:
-                millis_to_time_unit = java.util.concurrent.TimeUnit.;
+                expression = String.format("%d %d %d %d * ?",
+                        start_time.getSecond(),
+                        start_time.getMinute(),
+                        start_time.getHour(),
+                        start_time.getDayOfMonth());
+                cronScheduleBuilder = CronScheduleBuilder.cronSchedule(expression);
                 break;
             case YEAR:
-                millis_to_time_unit = java.util.concurrent.TimeUnit.DAYS.toMillis(1;
+                expression = String.format("%d %d %d %d %d ?",
+                        start_time.getSecond(),
+                        start_time.getMinute(),
+                        start_time.getHour(),
+                        start_time.getDayOfMonth(),
+                        start_time.getMonthValue());
+                cronScheduleBuilder = CronScheduleBuilder.cronSchedule(expression);
                 break;
         }
         // Define job instance
@@ -59,12 +79,12 @@ public class SchedulerServiceImpl implements SchedulerService {
 // Define a Trigger that will fire "now", and not repeat
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(operation.getUuid().toString(), "operations")
-                .startAt(new Date(start_time))/**start_time*/
+                .startAt(this.conversionService.convert(start_time,Date.class))/**start_time*/
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
                         .withIntervalInMilliseconds(millis_to_time_unit)
                         .withIntervalInSeconds(interval) /**time_unit*/
                         .repeatForever())
-                .endAt(new Date(stop_time))/**stop_time*/
+                .endAt(this.conversionService.convert(stop_time,Date.class))/**stop_time*/
                 .build();
 
 // Schedule the job with the trigger

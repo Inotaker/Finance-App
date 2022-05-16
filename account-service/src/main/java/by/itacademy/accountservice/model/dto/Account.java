@@ -1,12 +1,12 @@
 package by.itacademy.accountservice.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import java.util.UUID;
 
 
 public class Account {
-
+    /**
+     * 8
+     */
     private UUID uuid;
 
     private long dt_create;
@@ -18,6 +18,7 @@ public class Account {
     private String type;
 
     private UUID currency;
+
 
     public Account() {
     }
@@ -85,6 +86,7 @@ public class Account {
     public void setCurrency(UUID currency) {
         this.currency = currency;
     }
+
 
     public static final class Builder {
         private UUID uuid;

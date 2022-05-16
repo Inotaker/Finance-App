@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class OperationToDtoConverter implements Converter<OperationEntity, Operation> {
     @Override
     public Operation convert(OperationEntity source) {
-        Operation operation = Operation
+        return Operation
                 .Builder
                 .anOperation()
                 .withAccount(source.getAccount())
@@ -22,6 +22,5 @@ public class OperationToDtoConverter implements Converter<OperationEntity, Opera
                 .withDt_update(source.getDt_update())
                 .withUuid(source.getUuid())
                 .build();
-        return operation;
     }
 }

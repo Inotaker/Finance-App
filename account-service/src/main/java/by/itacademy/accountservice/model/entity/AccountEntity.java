@@ -1,15 +1,16 @@
 package by.itacademy.accountservice.model.entity;
 
-import by.itacademy.accountservice.model.dto.Account;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.TypeDescriptor;
-import org.springframework.core.convert.converter.Converter;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
+
 @Entity
 @Table(name = "account", schema = "account_service")
 public class AccountEntity {
+    /**
+     * 8
+     */
     @Id
     private UUID uuid;
 
@@ -29,56 +30,64 @@ public class AccountEntity {
         return uuid;
     }
 
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
+
     public long getDt_create() {
         return dt_create;
+    }
+
+    public void setDt_create(long dt_create) {
+        this.dt_create = dt_create;
     }
 
     public long getDt_update() {
         return dt_update;
     }
 
+    public void setDt_update(long dt_update) {
+        this.dt_update = dt_update;
+    }
+
     public String getTitle() {
         return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public UUID getCurrency() {
-        return currency;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getBalance() {
+        return balance;
     }
 
     public void setBalance(Integer balance) {
         this.balance = balance;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
 
-    public void setCurrency(UUID currency) {
-        this.currency = currency;
+    public UUID getCurrency() {
+        return currency;
     }
 
-    public void setDt_update(long dt_update) {
-        this.dt_update = dt_update;
+    public void setCurrency(UUID currency) {
+        this.currency = currency;
     }
 
     public static final class Builder {
@@ -92,15 +101,25 @@ public class AccountEntity {
         private UUID currency;
 
         private Builder() {
-            long time = System.currentTimeMillis();
-            this.dt_create = time;
-            this.dt_update = time;
-            this.uuid = UUID.randomUUID();
-            this.balance = 0;
         }
 
         public static Builder anAccountEntity() {
             return new Builder();
+        }
+
+        public Builder withUuid(UUID uuid) {
+            this.uuid = uuid;
+            return this;
+        }
+
+        public Builder withDt_create(long dt_create) {
+            this.dt_create = dt_create;
+            return this;
+        }
+
+        public Builder withDt_update(long dt_update) {
+            this.dt_update = dt_update;
+            return this;
         }
 
         public Builder withTitle(String title) {
@@ -130,14 +149,14 @@ public class AccountEntity {
 
         public AccountEntity build() {
             AccountEntity accountEntity = new AccountEntity();
+            accountEntity.setUuid(uuid);
+            accountEntity.setDt_create(dt_create);
+            accountEntity.setDt_update(dt_update);
             accountEntity.setTitle(title);
             accountEntity.setDescription(description);
             accountEntity.setBalance(balance);
             accountEntity.setType(type);
             accountEntity.setCurrency(currency);
-            accountEntity.dt_update = this.dt_update;
-            accountEntity.uuid = this.uuid;
-            accountEntity.dt_create = this.dt_create;
             return accountEntity;
         }
     }
