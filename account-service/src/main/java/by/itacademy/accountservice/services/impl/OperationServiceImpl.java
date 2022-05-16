@@ -32,12 +32,13 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public OperationEntity addOperation(OperationEntity operationEntity, UUID uuid) {
         if (service.getById(uuid).getUuid().equals(uuid)) {
+            service.editBalance(operationEntity.getValue(), uuid);
             operationEntity.setAccount(uuid);
-            service.editBalance(operationEntity.getValue(),uuid);
             long time = System.currentTimeMillis();
             operationEntity.setDt_create(time);
             operationEntity.setDt_update(time);
             operationEntity.setUuid(UUID.randomUUID());
+            operationEntity.setAvailable(true);/**операция доступна*/
             return this.storage.save(operationEntity);
         } else {
             throw new ValidationException("счета с таким uuid не существует");
