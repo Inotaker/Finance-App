@@ -11,4 +11,5 @@ import java.util.UUID;
 public interface ICurrencyStorage extends JpaRepository<CurrencyEntity, UUID> {
     List<CurrencyEntity> findAllBy(Pageable pageable);
     boolean existsByTitle(String title);
+    boolean existsByUuid(UUID uuid);
 }

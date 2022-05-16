@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,25 +34,28 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountEntity addAccount(AccountEntity entity) {
         List<ValidationError> errors = new ArrayList<>();
-        int countError = 0;
         if (entity.getDescription().equals("")) {
             errors.add(new ValidationError("error", "поле description не может быть пустым"));
-            countError++;
         }
         if (entity.getTitle().equals("")) {
             errors.add(new ValidationError("error", "поле title не может быть пустым"));
-            countError++;
         }
         if (entity.getType().equals("")) {
             errors.add(new ValidationError("error", "поле type не может быть пустым"));
-            countError++;
         }
         try {
             entity.setType(AccountType.valueOf(entity.getType()).toString());
         } catch (IllegalArgumentException e) {
             errors.add(new ValidationError("type_enum", "поле type не соответствую ни одному enum"));
         }
-        if (countError > 0) throw new ValidationException("ошибка валидация аккаунта", errors);
+        try {
+            if ( sendGet(entity.getCurrency()) == 409) {
+                errors.add(new ValidationError("error", "такой валюты не существует"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (errors.size() > 0) throw new ValidationException("ошибка валидация аккаунта", errors);
 
         long time = System.currentTimeMillis();
         entity.setDt_create(time);
@@ -148,4 +153,20 @@ public class AccountServiceImpl implements AccountService {
         return this.conversionService.convert(entity, Account.class);
     }
 
+
+    private int sendGet(UUID uuid) throws Exception {
+        final String USER_AGENT = "Mozilla/5.0";
+
+        String url = "http://localhost:8084/classifier/currency/" + uuid;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // Значение по умолчанию - GET
+        con.setRequestMethod("GET");
+
+        // Добавляем заголовок запроса
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        return con.getResponseCode();
+    }
 }

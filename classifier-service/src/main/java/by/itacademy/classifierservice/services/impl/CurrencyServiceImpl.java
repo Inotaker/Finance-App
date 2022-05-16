@@ -87,4 +87,8 @@ public class CurrencyServiceImpl implements CurrencyService {
     public CurrencyEntity convertToEntity(Currency currency) {
         return this.conversionService.convert(currency, CurrencyEntity.class);
     }
+
+    public boolean isExists(UUID uuid) {
+        return this.storage.existsByUuid(uuid);
+    }
 }
