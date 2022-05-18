@@ -10,9 +10,11 @@ public class CurrencyToEntityConverter implements Converter<Currency, CurrencyEn
     @Override
     public CurrencyEntity convert(Currency source) {
         CurrencyEntity currency = CurrencyEntity
-                .Builder
-                .aCurrencyEntity()
+                .Builder.aCurrencyEntity()
                 .withTitle(source.getTitle())
+                .withDt_create(source.getDt_create())
+                .withDt_update(source.getDt_update())
+                .withUuid(source.getUuid())
                 .withDescription(source.getDescription())
                 .build();
         return currency;

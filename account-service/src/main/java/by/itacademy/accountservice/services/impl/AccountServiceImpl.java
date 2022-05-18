@@ -7,7 +7,7 @@ import by.itacademy.accountservice.model.dto.Account;
 import by.itacademy.accountservice.model.dto.Page;
 import by.itacademy.accountservice.model.entity.AccountEntity;
 import by.itacademy.accountservice.model.enums.AccountType;
-import by.itacademy.accountservice.services.AccountService;
+import by.itacademy.accountservice.services.api.AccountService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,9 +48,11 @@ public class AccountServiceImpl implements AccountService {
         } catch (IllegalArgumentException e) {
             errors.add(new ValidationError("type_enum", "поле type не соответствую ни одному enum"));
         }
+        /**проверка валюты*/
+//        checkCurrency(entity.getCurrency());
         try {
-            if ( sendGet(entity.getCurrency()) == 409) {
-                errors.add(new ValidationError("error", "такой валюты не существует"));
+            if ( sendGet(entity.getCurrency()) == 204) {
+                errors.add(new ValidationError("error", "Валюты не существует"));
             }
         } catch (Exception e) {
             e.printStackTrace();

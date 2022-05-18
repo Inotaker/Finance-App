@@ -5,7 +5,7 @@ import by.itacademy.classifierservice.dao.api.ICurrencyStorage;
 import by.itacademy.classifierservice.model.Page;
 import by.itacademy.classifierservice.model.dto.Currency;
 import by.itacademy.classifierservice.model.entity.CurrencyEntity;
-import by.itacademy.classifierservice.services.CurrencyService;
+import by.itacademy.classifierservice.services.api.CurrencyService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

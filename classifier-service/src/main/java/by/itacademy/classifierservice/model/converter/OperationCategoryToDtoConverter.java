@@ -13,6 +13,9 @@ public class OperationCategoryToDtoConverter implements Converter<OperationCateg
                 .Builder
                 .anOperationCategoryEntity()
                 .withTitle(source.getTitle())
+                .withDt_create(source.getDt_create())
+                .withDt_update(source.getDt_update())
+                .withUuid(source.getUuid())
                 .build();
         return operationCategoryEntity;
     }

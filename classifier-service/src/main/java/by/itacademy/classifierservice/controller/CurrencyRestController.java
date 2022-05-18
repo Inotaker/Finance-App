@@ -41,8 +41,9 @@ public class CurrencyRestController {
         if (this.service.isExists(uuid)) {
             return new ResponseEntity<>(HttpStatus.OK);/**FOUND - 302 status code*/
         } else {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);/**NOT FOUND - 404 status code
-             CONFLICT - 409 status code*/
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);/**NOT FOUND - 404 status code
+             CONFLICT - 409 status code
+             NO CONTENT - 204 status code*/
         }
     }
 }

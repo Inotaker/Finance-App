@@ -12,4 +12,5 @@ import java.util.UUID;
 public interface IOperationCategoryStorage extends JpaRepository<OperationCategoryEntity, UUID> {
     List<OperationCategoryEntity> findAllBy(Pageable pageable);
     boolean existsByTitle(String title);
+    boolean existsByUuid(UUID uuid);
 }

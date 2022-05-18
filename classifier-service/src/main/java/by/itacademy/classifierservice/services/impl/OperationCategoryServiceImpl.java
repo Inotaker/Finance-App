@@ -5,7 +5,7 @@ import by.itacademy.classifierservice.dao.api.IOperationCategoryStorage;
 import by.itacademy.classifierservice.model.Page;
 import by.itacademy.classifierservice.model.dto.OperationCategory;
 import by.itacademy.classifierservice.model.entity.OperationCategoryEntity;
-import by.itacademy.classifierservice.services.OperationCategoryService;
+import by.itacademy.classifierservice.services.api.OperationCategoryService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -74,6 +74,11 @@ public class OperationCategoryServiceImpl implements OperationCategoryService {
         categoryPage.setSize(pageable.getPageSize());
         categoryPage.setNumber(pageable.getPageNumber() + 1);/**отсчет страниц идет с нуля*/
         return categoryPage;
+    }
+
+    @Override
+    public boolean isExists(UUID uuid) {
+        return this.storage.existsByUuid(uuid);
     }
 
     private OperationCategory convertToDto(OperationCategoryEntity operationCategoryEntity) {

@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/classifier/operation/category")
 public class OperationCategoryRestController {
@@ -27,9 +29,23 @@ public class OperationCategoryRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping( method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Page<OperationCategory>> getCurrencyPage(@RequestParam String size,
                                                           @RequestParam String page) {
         return ResponseEntity.ok(this.service.getPage(size,page));
+    }
+
+    /**
+     * Для проверок, на наличие категории в базе
+     */
+    @RequestMapping(value = "/{uuid}", method = RequestMethod.GET)
+    public ResponseEntity<?> currencyExists(@PathVariable UUID uuid) {
+        if (this.service.isExists(uuid)) {
+            return new ResponseEntity<>(HttpStatus.OK);/**FOUND - 302 status code*/
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);/**NOT FOUND - 404 status code
+             CONFLICT - 409 status code
+             NO CONTENT - 204 status code*/
+        }
     }
 }

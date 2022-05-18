@@ -1,4 +1,4 @@
-package by.itacademy.classifierservice.services;
+package by.itacademy.classifierservice.services.api;
 
 import by.itacademy.classifierservice.model.Page;
 import by.itacademy.classifierservice.model.dto.Currency;

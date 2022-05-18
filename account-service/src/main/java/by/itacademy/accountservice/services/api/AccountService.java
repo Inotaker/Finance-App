@@ -1,4 +1,4 @@
-package by.itacademy.accountservice.services;
+package by.itacademy.accountservice.services.api;
 
 import by.itacademy.accountservice.model.dto.Page;
 import by.itacademy.accountservice.model.dto.Account;

@@ -1,17 +1,22 @@
 package by.itacademy.accountservice.services.impl;
 
+import by.itacademy.accountservice.controller.advice.ValidationError;
 import by.itacademy.accountservice.controller.advice.ValidationException;
 import by.itacademy.accountservice.dao.api.IAccountStorage;
 import by.itacademy.accountservice.dao.api.IOperationStorage;
 import by.itacademy.accountservice.model.dto.Operation;
 import by.itacademy.accountservice.model.dto.Page;
 import by.itacademy.accountservice.model.entity.OperationEntity;
-import by.itacademy.accountservice.services.OperationService;
+import by.itacademy.accountservice.services.api.OperationService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,19 +36,109 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public OperationEntity addOperation(OperationEntity operationEntity, UUID uuid) {
+        List<ValidationError> errors = new ArrayList<>();
+
+        if (operationEntity.getDescription().equals("")) {
+            errors.add(new ValidationError("error", "поле description не может быть пустым"));
+        }
+        if (operationEntity.getValue() == 0) {
+            errors.add(new ValidationError("error", "Сумма операции не может быть нулем"));
+        }
+        if (operationEntity.getDate() == 0) {
+            errors.add(new ValidationError("error", "поле date не может быть нулем"));
+        }
+        /**проверка валюты*/
+        try {
+            final String USER_AGENT = "Mozilla/5.0";
+
+            String url = "http://localhost:8084/classifier/currency/" + operationEntity.getCurrency();
+
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            // Значение по умолчанию - GET
+            con.setRequestMethod("GET");
+
+            // Добавляем заголовок запроса
+            con.setRequestProperty("User-Agent", USER_AGENT);
+            if (con.getResponseCode() == 204) {
+                errors.add(new ValidationError("error", "Валюты не существует"));
+            }
+            System.out.println(con.getResponseCode());
+
+
+            String url1 = "http://localhost:8084/classifier/operation/category/" + operationEntity.getCategory();
+
+            URL obj1 = new URL(url1);
+            HttpURLConnection con1 = (HttpURLConnection) obj1.openConnection();
+
+            // Значение по умолчанию - GET
+            con1.setRequestMethod("GET");
+
+            // Добавляем заголовок запроса
+            con1.setRequestProperty("User-Agent", USER_AGENT);
+
+            if (con1.getResponseCode() == 204) {
+                errors.add(new ValidationError("error", "Категории не существует"));
+            }
+            System.out.println(con1.getResponseCode());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /**проверка категории операции*/
+
         if (service.getById(uuid).getUuid().equals(uuid)) {
+            long time = System.currentTimeMillis();
             service.editBalance(operationEntity.getValue(), uuid);
             operationEntity.setAccount(uuid);
-            long time = System.currentTimeMillis();
             operationEntity.setDt_create(time);
             operationEntity.setDt_update(time);
             operationEntity.setUuid(UUID.randomUUID());
             operationEntity.setAvailable(true);/**операция доступна*/
-            return this.storage.save(operationEntity);
-        } else {
-            throw new ValidationException("счета с таким uuid не существует");
         }
+        else {
+            errors.add(new ValidationError("error", "счета с таким uuid не существует"));
+        }
+        if (errors.size() > 0) throw new ValidationException("ошибка валидация аккаунта", errors);
+        return this.storage.save(operationEntity);
     }
+
+//    private void checkCategory(UUID category, List<ValidationError> errors) throws IOException {
+//        final String USER_AGENT = "Mozilla/5.0";
+//
+//        String url = "http://localhost:8084/classifier/operation/category" + category;
+//
+//        URL obj = new URL(url);
+//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//
+//        // Значение по умолчанию - GET
+//        con.setRequestMethod("GET");
+//
+//        // Добавляем заголовок запроса
+//        con.setRequestProperty("User-Agent", USER_AGENT);
+//
+//        if (con.getResponseCode() == 204) {
+//            errors.add(new ValidationError("error", "Категории не существует"));
+//        }
+//    }
+
+//    private void checkCurrency(UUID currency, List<ValidationError> errors) throws IOException {
+//        final String USER_AGENT = "Mozilla/5.0";
+//
+//        String url = "http://localhost:8084/classifier/currency/" + currency;
+//
+//        URL obj = new URL(url);
+//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//
+//        // Значение по умолчанию - GET
+//        con.setRequestMethod("GET");
+//
+//        // Добавляем заголовок запроса
+//        con.setRequestProperty("User-Agent", USER_AGENT);
+//        if (con.getResponseCode() == 204) {
+//            errors.add(new ValidationError("error", "Валюты не существует"));
+//        }
+//    }
 
     @Override
     public OperationEntity getById(UUID uuid) {
@@ -128,6 +223,22 @@ public class OperationServiceImpl implements OperationService {
         operationEntity.setAvailable(false);
         storage.save(operationEntity);
         return true;
+    }
+
+    private int sendGet(UUID uuid) throws Exception {
+        final String USER_AGENT = "Mozilla/5.0";
+
+        String url = "http://localhost:8084/classifier/currency/" + uuid;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // Значение по умолчанию - GET
+        con.setRequestMethod("GET");
+
+        // Добавляем заголовок запроса
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        return con.getResponseCode();
     }
 
 }
