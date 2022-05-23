@@ -1,31 +1,45 @@
 package by.itacademy.reportservice.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
+import by.itacademy.reportservice.dao.MapToStringConverter;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Entity
 @Table(name = "report", schema = "report_service")
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 public class ReportEntity {
     @Id
     private UUID uuid;
-    private LocalDateTime dt_create;//$int64
-    private LocalDateTime dt_update;//$int64
+    private long dt_create;//$int64
+    private long dt_update;//$int64
 
     private String status;//ENUM
     private String type;//ENUM
     private String description;
+//
+//    @Convert(converter = MapToStringConverter.class)
+    @Type(type = "json")
+    private Map<String, Object> params;
+    //    @Type(type = "json")
+//    private Map<String, String> accounts;
+//    private Collection<String> accounts;
+    //    @Type(type = "json")
+//    private Map<String, String> categories;
+//    private Collection<String> categories;
+//    @Column(name = "\"from\"")
+//    private long from;
+//    @Column(name = "\"to\"")
+//    private long to;
 
     public ReportEntity() {
     }
-
-    /** readOnly: true
-     example: Дата совершения операции: 01.01.2021 - 01.01.2022
-     Описание параметров отчёта в человеческом формате **/
-    //params oneOf
-
 
     public UUID getUuid() {
         return uuid;
@@ -35,19 +49,19 @@ public class ReportEntity {
         this.uuid = uuid;
     }
 
-    public LocalDateTime getDt_create() {
+    public long getDt_create() {
         return dt_create;
     }
 
-    public void setDt_create(LocalDateTime dt_create) {
+    public void setDt_create(long dt_create) {
         this.dt_create = dt_create;
     }
 
-    public LocalDateTime getDt_update() {
+    public long getDt_update() {
         return dt_update;
     }
 
-    public void setDt_update(LocalDateTime dt_update) {
+    public void setDt_update(long dt_update) {
         this.dt_update = dt_update;
     }
 
@@ -75,13 +89,22 @@ public class ReportEntity {
         this.description = description;
     }
 
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
+
     public static final class Builder {
         private UUID uuid;
-        private LocalDateTime dt_create;//$int64
-        private LocalDateTime dt_update;//$int64
+        private long dt_create;//$int64
+        private long dt_update;//$int64
         private String status;//ENUM
         private String type;//ENUM
         private String description;
+        private Map<String, Object> params;
 
         private Builder() {
         }
@@ -95,12 +118,12 @@ public class ReportEntity {
             return this;
         }
 
-        public Builder withDt_create(LocalDateTime dt_create) {
+        public Builder withDt_create(long dt_create) {
             this.dt_create = dt_create;
             return this;
         }
 
-        public Builder withDt_update(LocalDateTime dt_update) {
+        public Builder withDt_update(long dt_update) {
             this.dt_update = dt_update;
             return this;
         }
@@ -120,6 +143,11 @@ public class ReportEntity {
             return this;
         }
 
+        public Builder withParams(Map<String, Object> params) {
+            this.params = params;
+            return this;
+        }
+
         public ReportEntity build() {
             ReportEntity reportEntity = new ReportEntity();
             reportEntity.setUuid(uuid);
@@ -128,7 +156,11 @@ public class ReportEntity {
             reportEntity.setStatus(status);
             reportEntity.setType(type);
             reportEntity.setDescription(description);
+            reportEntity.setParams(params);
             return reportEntity;
         }
     }
+    /** readOnly: true
+     example: Дата совершения операции: 01.01.2021 - 01.01.2022
+     Описание параметров отчёта в человеческом формате **/
 }

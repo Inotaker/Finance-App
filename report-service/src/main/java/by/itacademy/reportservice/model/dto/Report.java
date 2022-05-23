@@ -2,6 +2,7 @@ package by.itacademy.reportservice.model.dto;
 
 import by.itacademy.reportservice.model.dto.params.ReportParam;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class Report {
@@ -18,6 +19,7 @@ public class Report {
      * Описание параметров отчёта в человеческом формате
      **/
     private String description;
+    private Map<String,Object> params;
 
     public UUID getUuid() {
         return uuid;
@@ -67,6 +69,14 @@ public class Report {
         this.description = description;
     }
 
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
+
     public Report() {
     }
 
@@ -77,6 +87,7 @@ public class Report {
         private String status;//ENUM
         private String type;//ENUM
         private String description;
+        private Map<String,Object> params;
 
         private Builder() {
         }
@@ -115,6 +126,11 @@ public class Report {
             return this;
         }
 
+        public Builder withParams(Map<String, Object> params) {
+            this.params = params;
+            return this;
+        }
+
         public Report build() {
             Report report = new Report();
             report.setUuid(uuid);
@@ -123,6 +139,7 @@ public class Report {
             report.setStatus(status);
             report.setType(type);
             report.setDescription(description);
+            report.setParams(params);
             return report;
         }
     }
