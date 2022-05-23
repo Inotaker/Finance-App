@@ -25,7 +25,7 @@ public class GlobalExceptionAdvice {
         return new ResponseEntity<>(new ResponseError(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
+    @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<ResponseError> securityHandler(IllegalStateException e) {
         return new ResponseEntity<>(new ResponseError(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
