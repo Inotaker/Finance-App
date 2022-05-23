@@ -9,6 +9,14 @@ import org.springframework.stereotype.Component;
 public class ReportToDtoConverter implements Converter<ReportEntity, Report> {
     @Override
     public Report convert(ReportEntity source) {
-        return null;
+        return Report.Builder.aReport()
+                .withDt_create(source.getDt_create())
+                .withDt_update(source.getDt_update())
+                .withUuid(source.getUuid())
+                .withDescription(source.getDescription())
+                .withParams(source.getParams())
+                .withType(source.getType())
+                .withStatus(source.getStatus())
+                .build();
     }
 }
